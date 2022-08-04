@@ -1,55 +1,55 @@
 package com.codouk.pointcoachingv2.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sun.istack.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Entity
 public class Point implements Serializable {
+    @Id
+    @GeneratedValue
     private Long codePoint;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date datePoint;
     private double poidsPerdus;
     private int semaine;
-
+    @NotNull
     private Boolean routineAlimentaire;
-    private Boolean mindfulEating;
-    private Boolean mindfulEatingAffecte;
+    private Boolean mindfulEating;    private Boolean mindfulEatingAffecte;
 
-    private Boolean hydratation;
-    private Boolean hydratationAffecte;
+    private Boolean hydratation;    private Boolean hydratationAffecte;
 
-    private Boolean sport;
-    private Boolean sportAffecte;
+    private Boolean sport;    private Boolean sportAffecte;
 
-    private Boolean stress;
-    private Boolean stressAffecte;
+    private Boolean stress;    private Boolean stressAffecte;
 
-    private Boolean sommeil;
-    private Boolean sommeilAffecte;
+    private Boolean sommeil;    private Boolean sommeilAffecte;
 
-    private Boolean infosSupplementaire;
-
+    private String infosSupplementaire;
+    @ManyToOne    @JoinColumn(name = "CODE_COACH")
     private Coach coach;
+    @ManyToOne    @JoinColumn(name = "CODE_CLI")
     private Client client;
+    @ManyToOne    @JoinColumn(name = "CODE_FORM")
     private Formule formule;
 
     public Point() {
         super();
     }
 
-    public Point(Date datePoint, double poidsPerdus, int semaine, Boolean routineAlimentaire, Boolean mindfulEating, Boolean hydratation, Boolean sport, Boolean stress, Boolean sommeil, Boolean infosSupplementaire, Coach coach, Client client, Formule formule) {
+    public Point(Date datePoint,double poidsPerdus, int semaine, Boolean routineAlimentaire,
+                 Boolean mindfulEating,Boolean hydratation, Boolean sport, Boolean stress, Boolean sommeil,
+                 String infosSupplementaire, Client client) {
         super();
-        this.datePoint = datePoint;
-        this.poidsPerdus = poidsPerdus;
-        this.semaine = semaine;
-        this.routineAlimentaire = routineAlimentaire;
-        this.mindfulEating = mindfulEating;
-        this.hydratation = hydratation;
-        this.sport = sport;
-        this.stress = stress;
-        this.sommeil = sommeil;
-        this.infosSupplementaire = infosSupplementaire;
-        this.coach = coach;
-        this.client = client;
-        this.formule = formule;
+        this.datePoint = datePoint;        this.poidsPerdus = poidsPerdus;
+        this.semaine = semaine;        this.routineAlimentaire = routineAlimentaire;
+        this.mindfulEating = mindfulEating;        this.hydratation = hydratation;
+        this.sport = sport;        this.stress = stress;        this.sommeil = sommeil;
+        this.infosSupplementaire = infosSupplementaire;     this.client = client;
     }
 
     public Long getCodePoint() {        return codePoint;    }
@@ -120,9 +120,9 @@ public class Point implements Serializable {
 
     public void setSommeilAffecte(Boolean sommeilAffecte) {        this.sommeilAffecte = sommeilAffecte;    }
 
-    public Boolean getInfosSupplementaire() {        return infosSupplementaire;    }
+    public String getInfosSupplementaire() {        return infosSupplementaire;    }
 
-    public void setInfosSupplementaire(Boolean infosSupplementaire) {
+    public void setInfosSupplementaire(String infosSupplementaire) {
         this.infosSupplementaire = infosSupplementaire;
     }
 

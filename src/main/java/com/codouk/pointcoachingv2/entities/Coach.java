@@ -1,11 +1,23 @@
 package com.codouk.pointcoachingv2.entities;
 
+import com.sun.istack.NotNull;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 
+@Entity
 public class Coach implements Serializable {
-    private String codeCoach;    private String nomCoach;
-    private Collection<Client> clients;    private Collection<Point> points;
+    @Id
+    @Column(length = 25)
+    private String codeCoach;
+    @Column(length = 25)
+    @NotNull
+    private String nomCoach;
+    @OneToMany(mappedBy = "coach", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Collection<Client> clients;
+    @OneToMany(mappedBy = "coach", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Collection<Point> points;
 
     public Coach() {
         super();

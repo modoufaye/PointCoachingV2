@@ -1,26 +1,49 @@
 package com.codouk.pointcoachingv2.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sun.istack.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
+@Entity
 public class Client implements Serializable {
-    private Long codeClient;    private String nomClient;     private String prenomClient;
+    @Id    @GeneratedValue
+    private Long codeClient;
+    @Column(length = 25)    @NotNull
+    private String nomClient;
+
+    @Column(length = 25)    @NotNull
+    private String prenomClient;
     private int ageClient;
-
-    private double poidsClient;    private double objectif;    private double taille;
-
+    @NotNull
+    private double poidsClient;
+    @NotNull
+    private double objectif;
+    private double taille;
+    @NotNull
     private String sexe;
-
-    private String emailClient;    private String numClient;    private String adresse;
-
+    private String emailClient;
+    @NotNull
+    private String numClient;
+    @NotNull
+    private String adresse;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date dateClient;
-
     private String antFamilliaux;    private String antMedicaux;
-
     private double poidsActuel;    private Boolean cureEnPause;
+    @ManyToOne
+    @JoinColumn(name = "CODE_COACH")
+    private Coach coach;
+    @ManyToOne
+    @JoinColumn(name = "CODE_FORM")
+    private Formule formule;
 
-    private Coach coach;    private Formule formule;    private Collection<Point> points;
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Collection<Point> points;
 
     public Client() {
         super();
@@ -28,8 +51,7 @@ public class Client implements Serializable {
 
     public Client(String nomClient, String prenomClient, int ageClient, double poidsClient, double objectif,
                   double taille, String sexe, String emailClient, String numClient, String adresse,
-                  Date dateClient, String antFamilliaux, String antMedicaux,
-                  Boolean cureEnPause, Coach coach, Formule formule) {
+                  Date dateClient, Coach coach, Formule formule) {
         super();
         this.nomClient = nomClient;        this.prenomClient = prenomClient;
         this.ageClient = ageClient;        this.poidsClient = poidsClient;
@@ -38,7 +60,7 @@ public class Client implements Serializable {
         this.numClient = numClient;        this.adresse = adresse;
         this.dateClient = dateClient;
         this.antFamilliaux = antFamilliaux;        this.antMedicaux = antMedicaux;
-        this.poidsActuel = poidsClient;        this.cureEnPause = cureEnPause;
+        this.poidsActuel = poidsClient;        this.cureEnPause = false;
 
         this.coach = coach;        this.formule = formule;
     }
